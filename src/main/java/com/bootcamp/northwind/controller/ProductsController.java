@@ -1,11 +1,11 @@
 package com.bootcamp.northwind.controller;
 
 import com.bootcamp.northwind.model.entity.LookupEntity;
-import com.bootcamp.northwind.model.request.CategoryRequest;
+import com.bootcamp.northwind.model.request.ProductsRequest;
 import com.bootcamp.northwind.service.CategoryService;
 import com.bootcamp.northwind.service.LookupService;
+import com.bootcamp.northwind.service.ProductsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.Constants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,50 +14,64 @@ import java.util.Comparator;
 import java.util.List;
 
 @Controller
-@RequestMapping("/category")
+@RequestMapping("/products")
 @RequiredArgsConstructor
-public class CategoryController {
-    private final CategoryService categoryService;
+public class ProductsController {
+    private final ProductsService productsService;
     private final LookupService lookupService;
 
     @GetMapping
     public ModelAndView index(){
-        ModelAndView view = new ModelAndView("pages/category/index");
-        List<CategoryRequest> category = this.categoryService.getAll();
+        ModelAndView view = new ModelAndView("pages/products/index");
+        List<ProductsRequest> products = this.productsService.getAll();
 
-        view.addObject("categoryList", category);
+        view.addObject("productList", products);
         return view;
     }
 
     @GetMapping("/add")
     public ModelAndView add(){
-        ModelAndView view = new ModelAndView("pages/category/add");
+        ModelAndView view = new ModelAndView("pages/products/add");
         view.addObject("dataList",lookupService.getByGroup("CATEGORY"));
         view.addObject("byPosition", Comparator.comparing(LookupEntity::getPosition));
-        view.addObject("categoryList", new CategoryRequest());
+        view.addObject("productList", new ProductsRequest());
         return view;
     }
 
     @GetMapping("/add-modal")
     public ModelAndView addModal(){
-        ModelAndView view = new ModelAndView("pages/category/_addPartial");
+        ModelAndView view = new ModelAndView("pages/products/_addPartial");
+        view.addObject("dataList",lookupService.getByGroup("CATEGORY"));
+        view.addObject("byPosition", Comparator.comparing(LookupEntity::getPosition));
+        return view;
+    }
+
+    @GetMapping("/add-category")
+    public ModelAndView addModalCategory(){
+        ModelAndView view = new ModelAndView("pages/products/_addCategory");
         view.addObject("dataList",lookupService.getByGroup("CATEGORY"));
         view.addObject("byPosition", Comparator.comparing(LookupEntity::getPosition));
         return view;
     }
 
     @PostMapping("/save")
-    public ModelAndView save(@ModelAttribute CategoryRequest request){
-        this.categoryService.save(request);
-        return new ModelAndView("redirect:/category");
+    public ModelAndView save(@ModelAttribute ProductsRequest request){
+        this.productsService.save(request);
+        return new ModelAndView("redirect:/products");
+    }
+
+    @PostMapping("/save-category")
+    public ModelAndView saveCategory(@ModelAttribute ProductsRequest request){
+        this.productsService.save(request);
+        return new ModelAndView("redirect:/products");
     }
 
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") String id){
-        ModelAndView view = new ModelAndView("pages/category/edit");
-        CategoryRequest category = this.categoryService.getById(id).orElse(null);
+        ModelAndView view = new ModelAndView("pages/products/edit");
+        ProductsRequest category = this.productsService.getById(id).orElse(null);
         if (category == null){
-            return new ModelAndView("redirect:/category");
+            return new ModelAndView("redirect:/products");
         }
 
         view.addObject("category", category);
@@ -65,35 +79,35 @@ public class CategoryController {
     }
 
     @PostMapping("/update")
-    public ModelAndView update(@ModelAttribute CategoryRequest request){
-        this.categoryService.update(request, request.getId());
-        return new ModelAndView("redirect:/category");
+    public ModelAndView update(@ModelAttribute ProductsRequest request){
+        this.productsService.update(request, request.getId());
+        return new ModelAndView("redirect:/products");
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable("id") String id){
-        ModelAndView view = new ModelAndView("pages/category/delete");
+        ModelAndView view = new ModelAndView("pages/products/delete");
         //get data from category service
-        CategoryRequest category = this.categoryService.getById(id).orElse(null);
+        ProductsRequest category = this.productsService.getById(id).orElse(null);
         if (category == null){
-            return new ModelAndView("redirect:/category");
+            return new ModelAndView("redirect:/products");
         }
         view.addObject("category",category);
         return view;
     }
 
     @PostMapping("/delete-save")
-    public String delete(@ModelAttribute CategoryRequest request){
-        this.categoryService.delete(request.getId());
-        return "redirect:/category";
+    public String delete(@ModelAttribute ProductsRequest request){
+        this.productsService.delete(request.getId());
+        return "redirect:/products";
     }
 
     @GetMapping("/detail/{id}")
     public ModelAndView detail(@PathVariable("id")String id){
-        ModelAndView view = new ModelAndView("pages/category/detail");
-        CategoryRequest category = this.categoryService.getById(id).orElse(null);
+        ModelAndView view = new ModelAndView("pages/products/detail");
+        ProductsRequest category = this.productsService.getById(id).orElse(null);
         if (category == null){
-            return new ModelAndView("redirect:/category");
+            return new ModelAndView("redirect:/products");
         }
 
         view.addObject("category", category);

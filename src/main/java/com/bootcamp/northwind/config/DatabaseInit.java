@@ -1,15 +1,22 @@
 package com.bootcamp.northwind.config;
 
+import com.bootcamp.northwind.model.entity.CategoryEntity;
+import com.bootcamp.northwind.model.entity.LookupEntity;
 import com.bootcamp.northwind.model.entity.RoleEntity;
 import com.bootcamp.northwind.model.entity.UserEntity;
+import com.bootcamp.northwind.repository.CategoryRepo;
 import com.bootcamp.northwind.repository.RoleRepo;
 import com.bootcamp.northwind.repository.UserRepo;
+import com.bootcamp.northwind.service.LookupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.Constants;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +27,7 @@ public class DatabaseInit implements CommandLineRunner {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder encoder;
+    private final LookupService lookupService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -28,6 +36,8 @@ public class DatabaseInit implements CommandLineRunner {
         initRole();
         // generate user
         initUser();
+        //generate lookup
+        initLookup();
     }
 
     private void initRole() {
@@ -85,6 +95,16 @@ public class DatabaseInit implements CommandLineRunner {
             }catch (Exception e){
                 log.error("Create super user role failed, Error: {}", e.getMessage());
             }
+        }
+    }
+
+    private void initLookup(){
+        if (lookupService.getByGroup("CATEGORY").isEmpty()){
+            lookupService.saveAll(Arrays.asList(
+                    new LookupEntity("CATEGORY","ELEKTRONIK","Elektronik",1),
+                    new LookupEntity("CATEGORY","FASHION","Fashion",2),
+                    new LookupEntity("CATEGORY","AKSESORIS","Aksesoris",3)
+            ));
         }
     }
 }

@@ -12,9 +12,9 @@ public class SupplierResponse {
     private String companyName;
     private String contactName;
     private String contactTitle;
-    private Double address;
-    private Double city;
-    private Double region;
+    private String address;
+    private String city;
+    private String region;
     private String postalCode;
     private String country;
     private String phone;

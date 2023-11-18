@@ -1,10 +1,10 @@
 package com.bootcamp.northwind.model.request;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.bootcamp.northwind.model.entity.SupplierEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 @Data
 @AllArgsConstructor
@@ -14,12 +14,16 @@ public class SupplierRequest {
     private String companyName;
     private String contactName;
     private String contactTitle;
-    private Double address;
-    private Double city;
-    private Double region;
+    private String address;
+    private String city;
+    private String region;
     private String postalCode;
     private String country;
     private String phone;
     private String fax;
     private String homepage;
+
+    public SupplierRequest(SupplierEntity entity) {
+        BeanUtils.copyProperties(entity, this);
+    }
 }

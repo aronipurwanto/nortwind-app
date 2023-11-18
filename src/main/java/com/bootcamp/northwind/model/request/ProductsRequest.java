@@ -1,8 +1,10 @@
 package com.bootcamp.northwind.model.request;
 
+import com.bootcamp.northwind.model.entity.ProductsEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 @Data
 @AllArgsConstructor
@@ -19,4 +21,8 @@ public class ProductsRequest {
     private Double order;
     private String reorder;
     private String discount;
+
+    public ProductsRequest(ProductsEntity entity) {
+        BeanUtils.copyProperties(entity, this);
+    }
 }

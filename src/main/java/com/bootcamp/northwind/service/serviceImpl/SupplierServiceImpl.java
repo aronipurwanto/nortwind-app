@@ -1,9 +1,11 @@
 package com.bootcamp.northwind.service.serviceImpl;
 
-import com.bootcamp.northwind.model.entity.CategoryEntity;
-import com.bootcamp.northwind.model.request.CategoryRequest;
+import com.bootcamp.northwind.model.entity.SupplierEntity;
+import com.bootcamp.northwind.model.request.SupplierRequest;
 import com.bootcamp.northwind.repository.CategoryRepo;
+import com.bootcamp.northwind.repository.SupplierRepo;
 import com.bootcamp.northwind.service.CategoryService;
+import com.bootcamp.northwind.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -16,36 +18,36 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class CategoryServiceImpl implements CategoryService {
+public class SupplierServiceImpl implements SupplierService {
 
-    private final CategoryRepo categoryRepo;
+    private final SupplierRepo supplierRepo;
     @Override
-    public List<CategoryRequest> getAll() {
-        return this.categoryRepo.findAll().stream().map(CategoryRequest::new).collect(Collectors.toList());
+    public List<SupplierRequest> getAll() {
+        return this.supplierRepo.findAll().stream().map(SupplierRequest::new).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<CategoryRequest> getById(String id) {
-        CategoryEntity result = this.categoryRepo.findById(id).orElse(null);
+    public Optional<SupplierRequest> getById(String id) {
+        SupplierEntity result = this.supplierRepo.findById(id).orElse(null);
         if (result == null){
             return Optional.empty();
         }
 
-        return Optional.of(new CategoryRequest(result));
+        return Optional.of(new SupplierRequest(result));
     }
 
     @Override
-    public Optional<CategoryRequest> save(CategoryRequest request) {
+    public Optional<SupplierRequest> save(SupplierRequest request) {
         if (request == null){
             return Optional.empty();
         }
 
-        CategoryEntity result = new CategoryEntity(request);
+        SupplierEntity result = new SupplierEntity(request);
 
         try {
-            this.categoryRepo.save(result);
+            this.supplierRepo.save(result);
             log.info("Save Category to database success");
-            return Optional.of(new CategoryRequest(result));
+            return Optional.of(new SupplierRequest(result));
         } catch (Exception e){
             log.error("Save Category to database failed, error :{}",e.getMessage());
             return Optional.empty();
@@ -53,8 +55,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoryRequest> update(CategoryRequest request, String id) {
-        CategoryEntity entity = this.categoryRepo.findById(id).orElse(null);
+    public Optional<SupplierRequest> update(SupplierRequest request, String id) {
+        SupplierEntity entity = this.supplierRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();
         }
@@ -63,9 +65,9 @@ public class CategoryServiceImpl implements CategoryService {
         entity.setId(id);
 
         try {
-            this.categoryRepo.save(entity);
+            this.supplierRepo.save(entity);
             log.info("Update Category to database success");
-            return Optional.of(new CategoryRequest(entity));
+            return Optional.of(new SupplierRequest(entity));
         } catch (Exception e ){
             log.error("Update Category to database failed, error:{}",e.getMessage());
             return Optional.empty();
@@ -73,17 +75,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoryRequest> delete(String id) {
-        CategoryEntity entity = this.categoryRepo.findById(id).orElse(null);
+    public Optional<SupplierRequest> delete(String id) {
+        SupplierEntity entity = this.supplierRepo.findById(id).orElse(null);
         if (entity == null){
             log.warn("Category With id :{}, not found", id);
             return Optional.empty();
         }
 
         try {
-            this.categoryRepo.delete(entity);
+            this.supplierRepo.delete(entity);
             log.info("Delete From Database Category Success");
-            return Optional.of(new CategoryRequest(entity));
+            return Optional.of(new SupplierRequest(entity));
         } catch (Exception e){
             log.error("Delete Category From Database Failed, error:{}",e.getMessage());
             return Optional.empty();

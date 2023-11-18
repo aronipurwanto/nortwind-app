@@ -1,24 +1,99 @@
-<div class="card card-success" xmlns:th="http://www.thymeleaf.org">
-    <div class="card-header">
-        <h3 class="card-title">New Category</h3>
+<div class="card card-success">
+<div class="card-header">
+        <h3 class="card-title">New Products</h3>
     </div>
-    <form th:action="@{~/category/save}" method="post" class="form-horizontal">
+    <form th:action="@{~/products/save}" method="post" class="form-horizontal">
         <div class="card-body">
-            <div class="form-group row">
-                <label for="categoryName" class="col-sm-2 col-form-label">Category Name</label>
-                    <div class="col-sm-10">
-                        <select class="form-control" id="categoryName" name="categoryName">
-                            <option value="">Select One</option>
-                            <option th:each="option :${#lists.sort(dataList, byPosition)}" th:value="${option.name}" th:text="${option.name}">Select One</option>
-                        </select>
+            <!-- card supplier -->
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="col-md-12">
+                            <div class="card card-info p-0">
+                                <div class="card-header">
+                                    <h3 class="card-title">Supplier :</h3>
+                                    <div class="card-tools">
+                                        <a th:href="@{~/supplier/save}"></a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="companyName" class="col-sm-4 col-form-label">Company Name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" name="companyName" id="companyName" placeholder="Company Name">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- product -->
+                        <div class="form-group row">
+                            <label for="quantity" class="col-sm-4 col-form-label">Quantity</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="price" class="col-sm-4 col-form-label">Price</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="price" id="price" placeholder="Price">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="stock" class="col-sm-4 col-form-label">Stock</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="stock" id="stock" placeholder="Stock">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="unitOrder" class="col-sm-4 col-form-label">Unit Order</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="unitOrder" id="unitOrder" placeholder="Unit Order">
+                            </div>
+                        </div>
                     </div>
-            </div>
-            <div class="form-group row">
-                <label for="description" class="col-sm-2 col-form-label">Description</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="description" id="description" placeholder="Description">
+                    <!-- card category -->
+                    <div class="col-lg-6 col-md-6">
+                        <div class="col-md-12">
+                            <div class="card card-info p-0">
+                                <div class="card-header">
+                                    <h3 class="card-title">Category :</h3>
+                                    <div class="card-tools">
+                                        <a th:href="@{~/category/save}"></a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="categoryName" class="col-sm-4 col-form-label">Category Name</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control custom-select rounded-0" id="categoryName" name="categoryName">
+                                                <option value="">Select One</option>
+                                                <option th:each="option :${#lists.sort(dataList, byPosition)}" th:value="${option.name}" th:text="${option.name}">Select One</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="order" class="col-sm-4 col-form-label">Order Qty</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="order" id="order" placeholder="Order">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="reorder" class="col-sm-4 col-form-label">Re Order</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="reorder" id="reorder" placeholder="Re Order">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="discount" class="col-sm-4 col-form-label">Discount</label>
+                            <div class="col-sm-8 ">
+                                <input type="text" class="form-control" name="discount" id="discount" placeholder="Discount">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </div>
         <div class="card-footer justify-content-between">
             <button type="submit" class="btn btn-outline-success">Save</button>
