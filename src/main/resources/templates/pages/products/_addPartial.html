@@ -11,21 +11,27 @@
                             <div class="card card-info p-0">
                                 <div class="card-header">
                                     <h3 class="card-title">Supplier :</h3>
-                                    <div class="card-tools">
-                                        <a th:href="@{~/supplier/save}"></a>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group row">
-                                        <label for="companyName" class="col-sm-4 col-form-label">Company Name</label>
+                                        <label for="supplierId" class="col-sm-4 col-form-label">Company Name</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" name="companyName" id="companyName" placeholder="Company Name">
+                                            <select class="form-control custom-select rounded-0" name="supplierId" id="supplierId">
+                                                <option value="">Select One</option>
+                                                <option th:each="supplier :${supplierList}" th:value="${supplier.id}" th:text="${supplier.companyName}"></option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- product -->
+                        <div class="form-group row">
+                            <label for="productName" class="col-sm-4 col-form-label">Product Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="productName" id="productName" placeholder="Product Name">
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="quantity" class="col-sm-4 col-form-label">Quantity</label>
                             <div class="col-sm-8">
@@ -42,12 +48,6 @@
                             <label for="stock" class="col-sm-4 col-form-label">Stock</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="stock" id="stock" placeholder="Stock">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="unitOrder" class="col-sm-4 col-form-label">Unit Order</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="unitOrder" id="unitOrder" placeholder="Unit Order">
                             </div>
                         </div>
                     </div>
@@ -74,6 +74,14 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- product -->
+                        <div class="form-group row">
+                            <label for="unitOrder" class="col-sm-4 col-form-label">Unit Order</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="unitOrder" id="unitOrder" placeholder="Unit Order">
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="order" class="col-sm-4 col-form-label">Order Qty</label>
                             <div class="col-sm-8">
@@ -81,9 +89,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="reorder" class="col-sm-4 col-form-label">Re Order</label>
+                            <label for="reOrder" class="col-sm-4 col-form-label">Re Order</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" name="reorder" id="reorder" placeholder="Re Order">
+                                <input type="text" class="form-control" name="reOrder" id="reOrder" placeholder="Re Order">
                             </div>
                         </div>
                         <div class="form-group row">

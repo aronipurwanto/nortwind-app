@@ -8,16 +8,19 @@
 <div class="container-fluid" layout:fragment="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
+        <!-- ./col -->
         <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>Category</h3>
+                    <h3>Product</h3>
+
+                    <p>List Product</p>
                 </div>
                 <div class="icon">
-                    <i class="fas fa-list"></i>
+                    <i class="fas fa-list-alt"></i>
                 </div>
-                <a th:href="@{~/category}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a th:href="@{~/products}" class="small-box-footer">More Info Click Here <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->
@@ -25,26 +28,14 @@
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>Product</h3>
+                    <h3>Supplier</h3>
+
+                    <p>Supplier</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-list-alt"></i>
                 </div>
-                <a th:href="@{~/products}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-                <div class="inner">
-
-                    <p>Snack</p>
-                </div>
-                <div class="image">
-                    <img th:src="@{/dist/img/logo-kampus.jpeg}" width="10">
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a th:href="@{~/supplier}" class="small-box-footer">More Info Click Here <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
         <!-- ./col -->

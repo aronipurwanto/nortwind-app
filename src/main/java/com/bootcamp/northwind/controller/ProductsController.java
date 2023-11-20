@@ -1,10 +1,13 @@
 package com.bootcamp.northwind.controller;
 
 import com.bootcamp.northwind.model.entity.LookupEntity;
+import com.bootcamp.northwind.model.request.CategoryRequest;
 import com.bootcamp.northwind.model.request.ProductsRequest;
+import com.bootcamp.northwind.model.request.SupplierRequest;
 import com.bootcamp.northwind.service.CategoryService;
 import com.bootcamp.northwind.service.LookupService;
 import com.bootcamp.northwind.service.ProductsService;
+import com.bootcamp.northwind.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductsController {
     private final ProductsService productsService;
+    private final SupplierService supplierService;
+//    private final CategoryService categoryService;
     private final LookupService lookupService;
 
     @GetMapping
@@ -38,21 +43,25 @@ public class ProductsController {
         return view;
     }
 
+    // add partial  pop-up
     @GetMapping("/add-modal")
     public ModelAndView addModal(){
         ModelAndView view = new ModelAndView("pages/products/_addPartial");
+        List<SupplierRequest> supplier = this.supplierService.getAll();
+
+        view.addObject("supplierList", supplier);
         view.addObject("dataList",lookupService.getByGroup("CATEGORY"));
         view.addObject("byPosition", Comparator.comparing(LookupEntity::getPosition));
         return view;
     }
 
-    @GetMapping("/add-category")
-    public ModelAndView addModalCategory(){
-        ModelAndView view = new ModelAndView("pages/products/_addCategory");
-        view.addObject("dataList",lookupService.getByGroup("CATEGORY"));
-        view.addObject("byPosition", Comparator.comparing(LookupEntity::getPosition));
-        return view;
-    }
+//    @GetMapping("/add-category")
+//    public ModelAndView addModalCategory(){
+//        ModelAndView view = new ModelAndView("pages/products/_addCategory");
+//        view.addObject("dataList",lookupService.getByGroup("CATEGORY"));
+//        view.addObject("byPosition", Comparator.comparing(LookupEntity::getPosition));
+//        return view;
+//    }
 
     @PostMapping("/save")
     public ModelAndView save(@ModelAttribute ProductsRequest request){
@@ -60,7 +69,7 @@ public class ProductsController {
         return new ModelAndView("redirect:/products");
     }
 
-    @PostMapping("/save-category")
+    @PostMapping("/products/save")
     public ModelAndView saveCategory(@ModelAttribute ProductsRequest request){
         this.productsService.save(request);
         return new ModelAndView("redirect:/products");
@@ -105,12 +114,12 @@ public class ProductsController {
     @GetMapping("/detail/{id}")
     public ModelAndView detail(@PathVariable("id")String id){
         ModelAndView view = new ModelAndView("pages/products/detail");
-        ProductsRequest category = this.productsService.getById(id).orElse(null);
-        if (category == null){
+        ProductsRequest product = this.productsService.getById(id).orElse(null);
+        if (product == null){
             return new ModelAndView("redirect:/products");
         }
 
-        view.addObject("category", category);
+        view.addObject("product", product);
         return view;
     }
 }

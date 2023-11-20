@@ -67,13 +67,14 @@
                         <tbody>
                         <tr th:each="products :${productList}">
                             <td th:text="${products.productName}"></td>
-                            <td th:text="${products.supplierId}"></td>
-                            <td th:text="${products.categoryId}"></td>
+                            <td th:text="${products.supplierName}"></td>
+                            <td th:text="${products.category}"></td>
                             <td th:text="${products.quantity}"></td>
                             <td th:text="${products.price}"></td>
                             <td th:text="${products.stock}"></td>
                             <td th:text="${products.unitOrder}"></td>
-                            <td th:text="${products.reorder}"></td>
+                            <td th:text="${products.order}"></td>
+                            <td th:text="${products.reOrder}"></td>
                             <td th:text="${products.discount}"></td>
                             <td>
                                 <a th:href="@{~/products/edit/{id}(id=${products.id}) }" class="btn btn-xs btn-warning btn-edit">

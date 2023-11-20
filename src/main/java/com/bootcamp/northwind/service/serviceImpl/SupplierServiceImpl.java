@@ -46,10 +46,10 @@ public class SupplierServiceImpl implements SupplierService {
 
         try {
             this.supplierRepo.save(result);
-            log.info("Save Category to database success");
+            log.info("Save Supplier to database success");
             return Optional.of(new SupplierRequest(result));
         } catch (Exception e){
-            log.error("Save Category to database failed, error :{}",e.getMessage());
+            log.error("Save Supplier to database failed, error :{}",e.getMessage());
             return Optional.empty();
         }
     }
@@ -66,10 +66,10 @@ public class SupplierServiceImpl implements SupplierService {
 
         try {
             this.supplierRepo.save(entity);
-            log.info("Update Category to database success");
+            log.info("Update Supplier to database success");
             return Optional.of(new SupplierRequest(entity));
         } catch (Exception e ){
-            log.error("Update Category to database failed, error:{}",e.getMessage());
+            log.error("Update Supplier to database failed, error:{}",e.getMessage());
             return Optional.empty();
         }
     }
@@ -78,16 +78,16 @@ public class SupplierServiceImpl implements SupplierService {
     public Optional<SupplierRequest> delete(String id) {
         SupplierEntity entity = this.supplierRepo.findById(id).orElse(null);
         if (entity == null){
-            log.warn("Category With id :{}, not found", id);
+            log.warn("Supplier With id :{}, not found", id);
             return Optional.empty();
         }
 
         try {
             this.supplierRepo.delete(entity);
-            log.info("Delete From Database Category Success");
+            log.info("Delete From Database Supplier Success");
             return Optional.of(new SupplierRequest(entity));
         } catch (Exception e){
-            log.error("Delete Category From Database Failed, error:{}",e.getMessage());
+            log.error("Delete Supplier From Database Failed, error:{}",e.getMessage());
             return Optional.empty();
         }
     }

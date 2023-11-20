@@ -1,10 +1,7 @@
 package com.bootcamp.northwind.model.entity;
 
 import com.bootcamp.northwind.model.request.ProductsRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,8 +25,12 @@ public class ProductsEntity {
     @Column(name = "supplier_id")
     private String supplierId;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "supplier_id", insertable = false, updatable = false)
+    private SupplierEntity supplier;
+
     @Column(name = "category_id")
-    private String categoryId;
+    private String category;
 
     @Column(name = "quantity")
     private Double quantity;

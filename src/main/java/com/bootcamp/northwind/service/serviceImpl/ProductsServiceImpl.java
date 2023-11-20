@@ -1,6 +1,8 @@
 package com.bootcamp.northwind.service.serviceImpl;
 
+import com.bootcamp.northwind.model.entity.CategoryEntity;
 import com.bootcamp.northwind.model.entity.ProductsEntity;
+import com.bootcamp.northwind.model.request.CategoryRequest;
 import com.bootcamp.northwind.model.request.ProductsRequest;
 import com.bootcamp.northwind.repository.ProductRepo;
 import com.bootcamp.northwind.service.ProductsService;
