@@ -27,13 +27,14 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Optional<SupplierRequest> getById(String id) {
+    public Optional<SupplierRequest> getById(Long id) {
         SupplierEntity result = this.supplierRepo.findById(id).orElse(null);
         if (result == null){
             return Optional.empty();
         }
 
-        return Optional.of(new SupplierRequest(result));
+        SupplierRequest request = new SupplierRequest(result);
+        return Optional.of(request);
     }
 
     @Override
@@ -43,6 +44,7 @@ public class SupplierServiceImpl implements SupplierService {
         }
 
         SupplierEntity result = new SupplierEntity(request);
+        BeanUtils.copyProperties(request, result);
 
         try {
             this.supplierRepo.save(result);
@@ -55,14 +57,13 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Optional<SupplierRequest> update(SupplierRequest request, String id) {
+    public Optional<SupplierRequest> update(SupplierRequest request, Long id) {
         SupplierEntity entity = this.supplierRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();
         }
 
         BeanUtils.copyProperties(request, entity);
-        entity.setId(id);
 
         try {
             this.supplierRepo.save(entity);
@@ -75,7 +76,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Optional<SupplierRequest> delete(String id) {
+    public Optional<SupplierRequest> delete(Long id) {
         SupplierEntity entity = this.supplierRepo.findById(id).orElse(null);
         if (entity == null){
             log.warn("Supplier With id :{}, not found", id);

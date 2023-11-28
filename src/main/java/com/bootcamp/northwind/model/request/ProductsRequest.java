@@ -8,30 +8,37 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductsRequest {
-    private String id;
+    private Long id;
     private String productName;
-    private String supplierId;
+    private Long supplierId;
+    private Long categoryId;
     private String supplierName;
-    private String category;
     private Double quantity;
     private Double price;
     private Double stock;
     private Double unitOrder;
-    private Double order;
     private String reOrder;
     private String discount;
+    private String categoryName;
+    private List<CategoryRequest> categories = new ArrayList<>();
 
     public ProductsRequest(ProductsEntity entity) {
         BeanUtils.copyProperties(entity, this);
+        this.id = entity.getId();
 
         if (entity.getSupplier() != null){
-            this.supplierId = entity.getSupplier().getId();
+            this.supplierId = entity.getSupplierId();
             this.supplierName = entity.getSupplier().getCompanyName();
+        }
+
+        if (!entity.getCategories().isEmpty()){
+            this.categories = entity.getCategories().stream().map(CategoryRequest::new).collect(Collectors.toList());
         }
     }
 }

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponse {
-    private String id;
+    private Long id;
     private String customerId;
     private String employeeId;
     private LocalDate orderDate;

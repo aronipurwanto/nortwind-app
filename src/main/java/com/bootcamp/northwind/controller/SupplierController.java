@@ -42,7 +42,7 @@ public class SupplierController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable("id") String id){
+    public ModelAndView edit(@PathVariable("id") Long id){
         ModelAndView view = new ModelAndView("pages/supplier/edit");
         SupplierRequest supplier = this.supplierService.getById(id).orElse(null);
         if (supplier == null){
@@ -60,7 +60,7 @@ public class SupplierController {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable("id")String id){
+    public ModelAndView delete(@PathVariable("id")Long id){
        ModelAndView view  = new ModelAndView("pages/supplier/delete");
         // get data from service
         SupplierRequest supplier = this.supplierService.getById(id).orElse(null);
@@ -76,15 +76,15 @@ public class SupplierController {
     @PostMapping("/delete-save")
     public String delete(@ModelAttribute SupplierRequest request){
         this.supplierService.delete(request.getId());
-        return "redirect:/products";
+        return "redirect:/supplier";
     }
 
     @GetMapping("/detail/{id}")
-    public ModelAndView detail(@PathVariable("id")String id){
+    public ModelAndView detail(@PathVariable("id")Long id){
         ModelAndView view = new ModelAndView("pages/supplier/detail");
         SupplierRequest supplier = this.supplierService.getById(id).orElse(null);
         if (supplier == null){
-            return new ModelAndView("redirect:/products");
+            return new ModelAndView("redirect:/supplier");
         }
 
         view.addObject("supplier", supplier);

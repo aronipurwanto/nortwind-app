@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
-import java.util.UUID;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,21 +18,19 @@ import java.util.UUID;
 @Table(name = "tbl_products")
 public class ProductsEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private Long id;
 
     @Column(name = "product_name")
     private String productName;
 
     @Column(name = "supplier_id")
-    private String supplierId;
+    private Long supplierId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "supplier_id", insertable = false, updatable = false)
     private SupplierEntity supplier;
-
-    @Column(name = "category_id")
-    private String category;
 
     @Column(name = "quantity")
     private Double quantity;
@@ -44,17 +44,21 @@ public class ProductsEntity {
     @Column(name = "unit_order")
     private Double unitOrder;
 
-    @Column(name = "order_qty")
-    private Double order;
-
     @Column(name = "re_order_qty")
     private String reOrder;
 
     @Column(name = "discount")
     private String discount;
 
+    @OneToMany(mappedBy = "products", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<CategoryEntity> categories = new ArrayList<>();
+
     public ProductsEntity(ProductsRequest request) {
         BeanUtils.copyProperties(request, this);
-        this.id = UUID.randomUUID().toString();
+    }
+
+    public void addCategory(CategoryEntity categoryEntity){
+        this.categories.add(categoryEntity);
+        categoryEntity.setProducts(this);
     }
 }

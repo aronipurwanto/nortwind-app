@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface ProductsService {
     List<ProductsRequest> getAll();
-    Optional<ProductsRequest> getById(String id);
+    Optional<ProductsRequest> getById(Long id);
     Optional<ProductsRequest> save(ProductsRequest request);
-    Optional<ProductsRequest> update (ProductsRequest request, String id );
-    Optional<ProductsRequest> delete (String id);
+    Optional<ProductsRequest> update (ProductsRequest request, Long id );
+    Optional<ProductsRequest> delete (Long id);
 }

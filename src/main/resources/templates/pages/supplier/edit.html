@@ -3,7 +3,7 @@
         <h3 class="card-title">Edit Category</h3>
     </div>
     <form th:action="@{~/supplier/update}" method="post" class="form-horizontal">
-        <input th:value="${supplier.id}" type="hidden" name="id">
+        <input type="hidden" name="id" th:value="${supplier.id}">
         <div class="card-body">
             <!-- card supplier -->
             <div class="row">

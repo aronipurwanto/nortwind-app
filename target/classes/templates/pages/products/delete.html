@@ -5,19 +5,19 @@
     </div>
     <form th:action="@{~/products/delete-save}" method="post" class="form-horizontal">
         <!-- id hidden -->
-        <input th:value="${category.id}" type="hidden" name="id">
+        <input th:value="${products.id}" type="hidden" name="id">
 
         <div class="card-body">
             <div class="form-group row">
                 <label for="categoryName" class="col-sm-2 col-form-label">Category Name</label>
                 <div class="col-sm-10">
-                    <input th:value="${category.categoryName}" type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Category Name" readonly="readonly">
+                    <input th:value="${products.productName}" type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Category Name" readonly="readonly">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="description" class="col-sm-2 col-form-label">Description</label>
                 <div class="col-sm-10">
-                    <input th:value="${category.description}" type="text" class="form-control" name="description" id="description" placeholder="Description" readonly="readonly">
+                    <input th:value="${products.supplierName}" type="text" class="form-control" name="description" id="description" placeholder="Description" readonly="readonly">
                 </div>
             </div>
         </div>

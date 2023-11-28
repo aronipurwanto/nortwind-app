@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CustomerDemographicRequest {
 
-    private String id;
+    private Long id;
     private String customerDesc;
 }

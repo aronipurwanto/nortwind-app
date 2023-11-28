@@ -58,7 +58,7 @@
                                 <div class="card-header">
                                     <h3 class="card-title">Category :</h3>
                                     <div class="card-tools">
-                                        <a th:href="@{~/category/save}"></a>
+                                        <a th:href="@{~/products/add-category}"></a>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -67,8 +67,16 @@
                                         <div class="col-sm-8">
                                             <select class="form-control custom-select rounded-0" id="categoryName" name="categoryName">
                                                 <option value="">Select One</option>
-                                                <option th:each="option :${#lists.sort(dataList, byPosition)}" th:value="${option.name}" th:text="${option.name}">Select One</option>
+                                                <option th:each="option :${#lists.sort(dataList, byPosition)}" th:value="${option.name}"
+                                                        th:text="${option.name}" th:name="|category[0].categoryName|">Select One</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-form-label" for="description">Description</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" th:name="|category[0].description|"
+                                                   placeholder="Description" id="description" name="description">
                                         </div>
                                     </div>
                                 </div>
@@ -80,12 +88,6 @@
                             <label for="unitOrder" class="col-sm-4 col-form-label">Unit Order</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" name="unitOrder" id="unitOrder" placeholder="Unit Order">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="order" class="col-sm-4 col-form-label">Order Qty</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" name="order" id="order" placeholder="Order">
                             </div>
                         </div>
                         <div class="form-group row">

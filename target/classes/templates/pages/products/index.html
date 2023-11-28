@@ -53,12 +53,10 @@
                         <tr>
                             <th>Product Name</th>
                             <th>Supplier</th>
-                            <th>Category</th>
                             <th>Quantity</th>
                             <th>Price</th>
                             <th>Stock</th>
                             <th>Unit Order</th>
-                            <th>Order Qty</th>
                             <th>Re Order</th>
                             <th>Discount</th>
                             <th>Action</th>
@@ -68,12 +66,10 @@
                         <tr th:each="products :${productList}">
                             <td th:text="${products.productName}"></td>
                             <td th:text="${products.supplierName}"></td>
-                            <td th:text="${products.category}"></td>
                             <td th:text="${products.quantity}"></td>
                             <td th:text="${products.price}"></td>
                             <td th:text="${products.stock}"></td>
                             <td th:text="${products.unitOrder}"></td>
-                            <td th:text="${products.order}"></td>
                             <td th:text="${products.reOrder}"></td>
                             <td th:text="${products.discount}"></td>
                             <td>

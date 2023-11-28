@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeTerritoriesRequest {
-    private String id;
+    private Long id;
     private String employeeId;
 
 }

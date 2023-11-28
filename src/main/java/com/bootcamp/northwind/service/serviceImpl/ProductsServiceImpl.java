@@ -27,7 +27,7 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public Optional<ProductsRequest> getById(String id) {
+    public Optional<ProductsRequest> getById(Long id) {
         ProductsEntity result = this.productRepo.findById(id).orElse(null);
         if (result == null){
             return Optional.empty();
@@ -43,6 +43,16 @@ public class ProductsServiceImpl implements ProductsService {
         }
 
         ProductsEntity result = new ProductsEntity(request);
+        BeanUtils.copyProperties(request, result);
+
+        if (!request.getCategories().isEmpty()){
+            for (CategoryRequest categoryRequest : request.getCategories()){
+                CategoryEntity categoryEntity = new CategoryEntity();
+                BeanUtils.copyProperties(categoryRequest, categoryEntity);
+                // entity add category
+                result.addCategory(categoryEntity);
+            }
+        }
 
         try {
             this.productRepo.save(result);
@@ -55,7 +65,7 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public Optional<ProductsRequest> update(ProductsRequest request, String id) {
+    public Optional<ProductsRequest> update(ProductsRequest request, Long id) {
         ProductsEntity entity = this.productRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();
@@ -75,7 +85,7 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
-    public Optional<ProductsRequest> delete(String id) {
+    public Optional<ProductsRequest> delete(Long id) {
         ProductsEntity entity = this.productRepo.findById(id).orElse(null);
         if (entity == null){
             log.warn("Products With id :{}, not found", id);

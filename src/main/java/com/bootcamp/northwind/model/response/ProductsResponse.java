@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductsResponse {
-    private String id;
+    private Long id;
     private String productName;
     private String supplierId;
     private String categoryId;
@@ -16,7 +16,6 @@ public class ProductsResponse {
     private Double price;
     private Double stock;
     private Double unitOrder;
-    private Double order;
     private String reorder;
     private String discount;
 }
