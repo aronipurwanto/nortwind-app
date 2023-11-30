@@ -2,9 +2,7 @@ package com.bootcamp.northwind.service.serviceImpl;
 
 import com.bootcamp.northwind.model.entity.SupplierEntity;
 import com.bootcamp.northwind.model.request.SupplierRequest;
-import com.bootcamp.northwind.repository.CategoryRepo;
 import com.bootcamp.northwind.repository.SupplierRepo;
-import com.bootcamp.northwind.service.CategoryService;
 import com.bootcamp.northwind.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

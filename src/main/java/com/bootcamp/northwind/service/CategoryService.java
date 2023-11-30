@@ -9,6 +9,6 @@ public interface CategoryService {
     List<CategoryRequest> getAll();
     Optional<CategoryRequest> getById(Long id);
     Optional<CategoryRequest> save(CategoryRequest request);
-    Optional<CategoryRequest> update (CategoryRequest request, Long id );
-    Optional<CategoryRequest> delete (Long id);
+    Optional<CategoryRequest> update(CategoryRequest request, Long id);
+    Optional<CategoryRequest> delete(Long id);
 }

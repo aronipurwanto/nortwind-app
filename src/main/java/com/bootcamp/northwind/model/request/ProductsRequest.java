@@ -19,14 +19,13 @@ public class ProductsRequest {
     private Long supplierId;
     private Long categoryId;
     private String supplierName;
+    private String categoryName;
     private Double quantity;
     private Double price;
     private Double stock;
     private Double unitOrder;
     private String reOrder;
     private String discount;
-    private String categoryName;
-    private List<CategoryRequest> categories = new ArrayList<>();
 
     public ProductsRequest(ProductsEntity entity) {
         BeanUtils.copyProperties(entity, this);
@@ -35,10 +34,6 @@ public class ProductsRequest {
         if (entity.getSupplier() != null){
             this.supplierId = entity.getSupplierId();
             this.supplierName = entity.getSupplier().getCompanyName();
-        }
-
-        if (!entity.getCategories().isEmpty()){
-            this.categories = entity.getCategories().stream().map(CategoryRequest::new).collect(Collectors.toList());
         }
     }
 }

@@ -28,6 +28,7 @@ public class DatabaseInit implements CommandLineRunner {
     private final RoleRepo roleRepo;
     private final PasswordEncoder encoder;
     private final LookupService lookupService;
+    private final CategoryRepo categoryRepo;
 
     @Override
     public void run(String... args) throws Exception {
@@ -38,6 +39,7 @@ public class DatabaseInit implements CommandLineRunner {
         initUser();
         //generate lookup
         initLookup();
+        initCategory();
     }
 
     private void initRole() {
@@ -103,7 +105,21 @@ public class DatabaseInit implements CommandLineRunner {
             lookupService.saveAll(Arrays.asList(
                     new LookupEntity("CATEGORY","ELEKTRONIK","Elektronik",1),
                     new LookupEntity("CATEGORY","FASHION","Fashion",2),
-                    new LookupEntity("CATEGORY","AKSESORIS","Aksesoris",3)
+                    new LookupEntity("CATEGORY","AKSESORIS","Aksesoris",3),
+                    new LookupEntity("CATEGORY","MAKANAN","Makanan",4),
+                    new LookupEntity("CATEGORY","PERKAKAS","Perkakas",5)
+            ));
+        }
+    }
+
+    private void initCategory(){
+        if (categoryRepo.count() > 0L){
+            categoryRepo.saveAll(Arrays.asList(
+                    new CategoryEntity("Makanan", "Enak Dan Lezat"),
+                    new CategoryEntity("Minuman", "Segar Dan Manis"),
+                    new CategoryEntity("Aksesoris", "Bagus Dan Keren"),
+                    new CategoryEntity("Fashion", "Baru Dan Berkualitas"),
+                    new CategoryEntity("Elektronik", "Harga terjangkau")
             ));
         }
     }

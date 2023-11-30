@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-6">
         <div class="form-group row">
-            <label for="categoryName" class="col-sm-2 col-form-label">Category Name</label>
+            <label for="categoryId" class="col-sm-2 col-form-label">Category Name</label>
             <div class="col-sm-10">
-                <select class="form-control custom-select rounded-0" id="categoryName" name="categoryName">
+                <select class="form-control custom-select rounded-0" id="categoryId" name="categoryId">
                     <option value="">Select One</option>
-                    <option th:each="option :${#lists.sort(dataList, byPosition)}" th:value="${option.name}"
+                    <option th:each="option :${#lists.sort(dataList, byPosition)}" th:value="${option.id}"
                             th:text="${option.name}" th:name="|category[${index}].categoryName|">Select One</option>
                 </select>
             </div>

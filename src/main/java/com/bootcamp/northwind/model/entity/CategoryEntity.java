@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,11 +27,20 @@ public class CategoryEntity {
     @Column(name = "category_desc")
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "products_id")
-    private ProductsEntity products;
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ProductsEntity> products = new ArrayList<>();
+
+    public CategoryEntity(String categoryName, String description) {
+        this.categoryName = categoryName;
+        this.description = description;
+    }
 
     public CategoryEntity(CategoryRequest request) {
         BeanUtils.copyProperties(request, this);
+    }
+
+    public void getProducts(ProductsEntity productsEntity) {
+        this.products.add(productsEntity);
+        productsEntity.setCategory(this);
     }
 }

@@ -50,15 +50,11 @@ public class ProductsEntity {
     @Column(name = "discount")
     private String discount;
 
-    @OneToMany(mappedBy = "products", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<CategoryEntity> categories = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
 
     public ProductsEntity(ProductsRequest request) {
         BeanUtils.copyProperties(request, this);
-    }
-
-    public void addCategory(CategoryEntity categoryEntity){
-        this.categories.add(categoryEntity);
-        categoryEntity.setProducts(this);
     }
 }
