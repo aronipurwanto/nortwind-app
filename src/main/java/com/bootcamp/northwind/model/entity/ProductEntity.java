@@ -1,13 +1,14 @@
 package com.bootcamp.northwind.model.entity;
 
 import com.bootcamp.northwind.model.response.ProductResponse;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -17,8 +18,9 @@ import java.util.UUID;
 @Table(name = "tbl_product")
 public class ProductEntity {
     @Id
-    @Column(name = "id", length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -41,23 +43,18 @@ public class ProductEntity {
     @Column(name = "discontinued")
     private String discontinued;
 
-    @Column(name = "category_id", length = 36)
-    private String categoryId;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id", insertable = false, updatable = false)
-    private CategoryEntity category;
-
-    @Column(name = "supplier_id", length = 36)
-    private String supplierId;
+    @Column(name = "supplier_id")
+    private Long supplierId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "supplier_id", insertable = false, updatable = false)
     private SupplierEntity supplier;
 
-    public ProductEntity(ProductResponse response, CategoryEntity category) {
-        BeanUtils.copyProperties(response, this);
-        this.id = UUID.randomUUID().toString();
-        this.category = category;
-    }
+    @Column(name = "category_id", insertable = false, updatable = false)
+    private Long categoryId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
+
 }

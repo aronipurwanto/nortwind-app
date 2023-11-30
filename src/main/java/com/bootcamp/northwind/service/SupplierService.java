@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface SupplierService {
     List<SupplierResponse> getAll();
-    SupplierResponse getById(String id);
+    Optional<SupplierResponse> getById(Long id);
     Optional<SupplierResponse> save(SupplierResponse request);
-    Optional<SupplierResponse> update(SupplierResponse request, String id);
-    Optional<SupplierResponse> delete(String id);
+    Optional<SupplierResponse> update(SupplierResponse request, Long id);
+    Optional<SupplierResponse> delete(Long id);
 }

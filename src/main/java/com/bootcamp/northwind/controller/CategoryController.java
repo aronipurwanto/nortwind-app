@@ -1,15 +1,15 @@
 package com.bootcamp.northwind.controller;
 
-import com.bootcamp.northwind.model.entity.LookUpEntity;
 import com.bootcamp.northwind.model.response.CategoryResponse;
+import com.bootcamp.northwind.model.response.ProductResponse;
+import com.bootcamp.northwind.model.response.SupplierResponse;
 import com.bootcamp.northwind.service.CategoryService;
-import com.bootcamp.northwind.service.LookUpService;
+import com.bootcamp.northwind.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -17,8 +17,7 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryController {
     private final CategoryService categoryService;
-    private final LookUpService lookUpService;
-
+    private final SupplierService supplierService;
     @GetMapping
     public ModelAndView index(){
         ModelAndView view = new ModelAndView("pages/category/index");
@@ -28,41 +27,41 @@ public class CategoryController {
         return view;
     }
 
-    @GetMapping("/add")
+    @GetMapping("/add-modal")
     public ModelAndView add(){
         ModelAndView view = new ModelAndView("pages/category/add");
+        List<SupplierResponse> supplierResponses = supplierService.getAll();
+
+        view.addObject("supplier", supplierResponses );
         return view;
     }
 
-    @GetMapping("/add-modal")
-    public ModelAndView addModal(){
-        ModelAndView view = new ModelAndView("pages/category/_addPartial");
+    @GetMapping("/add-product/{index}")
+    public ModelAndView addCategory(@PathVariable("index") int index){
+        ModelAndView view = new ModelAndView("pages/category/_product");
+        view.addObject("index", index);
 
-        view.addObject("category", lookUpService.getByGroups("CATEGORY"));
-        view.addObject("byPosition", Comparator.comparing(LookUpEntity::getPosition));
+        List<SupplierResponse> supplier = supplierService.getAll();
+        view.addObject("supplier", supplier);
         return view;
     }
 
     @PostMapping("/save")
     public ModelAndView save(@ModelAttribute CategoryResponse response){
-        if (response == null){
-            return new ModelAndView("redirect:/category/add");
-        }
-
-        if (response.getDesc().isEmpty()){
-            return new ModelAndView("redirect:/category/add");
-        }
         categoryService.save(response);
-        return new ModelAndView("redirect:/category");
+        return new ModelAndView ("redirect:/category");
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable("id") String id){
+    public ModelAndView edit(@PathVariable("id") Long id){
         ModelAndView view = new ModelAndView("pages/category/edit");
-        CategoryResponse response = categoryService.getById(id);
+        CategoryResponse response = categoryService.getById(id).orElse(null);
         if (response == null){
             return new ModelAndView("redirect:/category");
         }
+
+        List<SupplierResponse> supplier = supplierService.getAll();
+        view.addObject("supplier", supplier);
 
         view.addObject("category", response);
         return view;
@@ -75,9 +74,9 @@ public class CategoryController {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable("id") String id){
+    public ModelAndView delete(@PathVariable("id") Long id){
         ModelAndView view = new ModelAndView("pages/category/delete");
-        CategoryResponse data = categoryService.getById(id);
+        CategoryResponse data = categoryService.getById(id).orElse(null);
         if (data == null) {
             return new ModelAndView("redirect:/category");
         }
@@ -86,10 +85,12 @@ public class CategoryController {
         return view;
     }
 
+
+
     @GetMapping("/detail/{id}")
-    public ModelAndView detail(@PathVariable("id") String id){
+    public ModelAndView detail(@PathVariable("id") Long id){
         ModelAndView view = new ModelAndView("pages/category/detail");
-        CategoryResponse response = categoryService.getById(id);
+        CategoryResponse response = categoryService.getById(id).orElse(null);
         if (response == null){
             return new ModelAndView("redirect:/category");
         }
@@ -102,5 +103,26 @@ public class CategoryController {
     public String delete(@ModelAttribute CategoryResponse response){
         categoryService.delete(response.getId());
         return "redirect:/category";
+    }
+
+    /**
+     * address custom
+     */
+    @GetMapping("/product/new/{id}")
+    public ModelAndView addressNew(@PathVariable("id") Long id){
+        ModelAndView view = new ModelAndView("pages/category/_product-new");
+        List<SupplierResponse> supplier = supplierService.getAll();
+        // send country to view
+        view.addObject("supplier", supplier);
+        view.addObject("categoryId", id);
+        return view;
+    }
+
+    @PostMapping("/product/save")
+    public ModelAndView saveCustomerAddress(@ModelAttribute ProductResponse response){
+        // call save from service
+        categoryService.saveProduct(response);
+        // redirect to index
+        return new ModelAndView("redirect:/category/edit" + response.getCategoryId());
     }
 }

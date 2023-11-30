@@ -41,9 +41,9 @@ public class SupplierController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable("id") String id){
+    public ModelAndView edit(@PathVariable("id") Long id){
         ModelAndView view = new ModelAndView("pages/supplier/edit");
-        SupplierResponse response = supplierService.getById(id);
+        SupplierResponse response = supplierService.getById(id).orElse(null);
         if (response == null){
             return new ModelAndView("redirect:/supplier");
         }
@@ -58,9 +58,9 @@ public class SupplierController {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable("id") String id){
+    public ModelAndView delete(@PathVariable("id") Long id){
         ModelAndView view = new ModelAndView("pages/supplier/delete");
-        SupplierResponse response = supplierService.getById(id);
+        SupplierResponse response = supplierService.getById(id).orElse(null);
         if (response == null){
             return new ModelAndView("redirect:/supplier");
         }
@@ -76,9 +76,9 @@ public class SupplierController {
     }
 
     @GetMapping("/detail/{id}")
-    public ModelAndView detail(@PathVariable("id") String id) {
+    public ModelAndView detail(@PathVariable("id") Long id) {
         ModelAndView view = new ModelAndView("pages/supplier/detail");
-        SupplierResponse response = supplierService.getById(id);
+        SupplierResponse response = supplierService.getById(id).orElse(null);
         if (response == null) {
             return new ModelAndView("redirect:/supplier");
         }

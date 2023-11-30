@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LookupRepo extends JpaRepository<LookUpEntity, String> {
+public interface LookupRepo extends JpaRepository<LookUpEntity, Long> {
     List<LookUpEntity> findByGroups(String groups);
     Optional<LookUpEntity> findByCode(String code);
 }

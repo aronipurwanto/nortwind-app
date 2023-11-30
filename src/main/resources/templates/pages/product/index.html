@@ -2,19 +2,20 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/main}">
 <head>
   <meta charset="UTF-8">
-  <title>Product - Index</title>
+  <title>Products - Index</title>
+  <link rel="icon" href="/dist/img/penjualan.jpg">
 </head>
 <body>
 
 <!-- breadcrumb -->
 <div class="row mb-2" layout:fragment="breadcrumb">
   <div class="col-sm-6">
-    <h1>PRODUCT</h1>
+    <h1>Products</h1>
   </div>
   <div class="col-sm-6">
     <ol class="breadcrumb float-sm-right">
       <li class="breadcrumb-item"><a th:href="@{~/home}">Home</a></li>
-      <li class="breadcrumb-item active">Product</li>
+      <li class="breadcrumb-item active">Products</li>
     </ol>
   </div>
 </div>
@@ -29,7 +30,7 @@
       <!-- widged -->
       <div class="card card-blue">
         <div class="card-header">
-          <h3 class="card-title">Product Data</h3>
+          <h3 class="card-title">Products Data</h3>
 
           <div class="card-tools">
             <div class="input-group input-group-sm" style="width: 150px;">
@@ -40,7 +41,7 @@
                   <i class="fas fa-search"></i>
                 </button>
 
-                <a th:href="@{/product/add-modal}" class="btn btn-outline-dark" id="btn-add">
+                <a th:href="@{/product/add}" class="btn btn-outline-dark" id="btn-add">
                   <i class="fas fa-plus"></i>
                 </a>
               </div>
@@ -52,36 +53,34 @@
             <thead>
             <tr>
               <th>Product Name</th>
-              <th>Quantity Per Unit</th>
-              <th>Unit Price</th>
+              <th>Supplier Name</th>
+              <th>Quantity Unit</th>
+              <th>Price</th>
               <th>Stock</th>
-              <th>On Order</th>
-              <th>Reorder Level</th>
-              <th>Discontinued</th>
-              <th>Category</th>
-              <th>Supplier</th>
+              <th>Unit Order</th>
+              <th>Re Order</th>
+              <th>Discount</th>
               <th>Action</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="product :${dataProduct}">
-              <td th:text="${product.name}"></td>
-              <td th:text="${product.quantityPerUnit}"></td>
-              <td th:text="${product.unitPrice}"></td>
-              <td th:text="${product.stock}"></td>
-              <td th:text="${product.onOrder}"></td>
-              <td th:text="${product.reorderLevel}"></td>
-              <td th:text="${product.discontinued}"></td>
-              <td th:text="${product.category.name}"></td>
-              <td th:text="${product.supplier.companyName}"></td>
+            <tr th:each="products :${dataProduct}">
+              <td th:text="${products.name}"></td>
+              <td th:text="${products.companyName}"></td>
+              <td th:text="${products.quantityPerUnit}"></td>
+              <td th:text="${products.unitPrice}"></td>
+              <td th:text="${products.stock}"></td>
+              <td th:text="${products.onOrder}"></td>
+              <td th:text="${products.reorderLevel}"></td>
+              <td th:text="${products.discontinued}"></td>
               <td>
-                <a th:href="@{~/product/edit/{id}(id=${product.id})}" class="btn btn-xs btn-outline-warning btn-edit">
+                <a th:href="@{~/product/edit/{id}(id=${products.id})}" class="btn btn-xs btn-warning btn-edit">
                   <i class="fas fa-edit"></i>
                 </a>
-                <a th:href="@{~/product/detail/{id}(id=${product.id})}" class="btn btn-xs btn-outline-success btn-view">
+                <a th:href="@{~/product/detail/{id}(id=${products.id})}" class="btn btn-xs btn-success btn-view">
                   <i class="fas fa-eye"></i>
                 </a>
-                <a th:href="@{~/product/delete/{id}(id=${product.id})}" class="btn btn-xs btn-outline-danger btn-delete">
+                <a th:href="@{~/product/delete/{id}(id=${products.id})}" class="btn btn-xs btn-danger btn-delete">
                   <i class="fas fa-trash"></i>
                 </a>
               </td>

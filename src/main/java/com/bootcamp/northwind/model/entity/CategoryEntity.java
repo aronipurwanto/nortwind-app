@@ -18,8 +18,9 @@ import java.util.UUID;
 @Table(name = "tbl_category")
 public class CategoryEntity {
     @Id
-    @Column(name = "id", length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -27,11 +28,16 @@ public class CategoryEntity {
     @Column(name = "description")
     private String desc;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+   @OneToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ProductEntity> product = new ArrayList<>();
 
-    public CategoryEntity(CategoryResponse response) {
-        BeanUtils.copyProperties(response, this);
-        this.id = UUID.randomUUID().toString();
+    public CategoryEntity(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public void addProduct(ProductEntity product){
+        this.product.add(product);
+        product.setCategory(this);
     }
 }

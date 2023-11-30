@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LookUpResponse {
-    private String id;
+    private Long id;
     private String groups;
     private String code;
     private String name;

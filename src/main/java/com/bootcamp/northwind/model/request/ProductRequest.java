@@ -18,4 +18,5 @@ public class ProductRequest {
     private String discontinued;
     private String categoryId;
     private String supplierId;
+    private String categoryName;
 }

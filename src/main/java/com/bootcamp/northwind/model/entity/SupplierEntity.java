@@ -1,10 +1,7 @@
 package com.bootcamp.northwind.model.entity;
 
 import com.bootcamp.northwind.model.response.SupplierResponse;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +16,9 @@ import java.util.UUID;
 @Table(name = "tbl_supplier")
 public class SupplierEntity {
     @Id
-    @Column(name = "id", length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "company_name")
     private String companyName;
@@ -57,6 +55,5 @@ public class SupplierEntity {
 
     public SupplierEntity(SupplierResponse response) {
         BeanUtils.copyProperties(response, this);
-        this.id = UUID.randomUUID().toString();
     }
 }

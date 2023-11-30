@@ -14,13 +14,18 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryResponse {
-    private String id;
+    private Long id;
     private String name;
     private String desc;
-    List<ProductResponse> product = new ArrayList<>();
+    private List<ProductResponse> product = new ArrayList<>();
 
-    public CategoryResponse(CategoryEntity category) {
-        BeanUtils.copyProperties(category, this);
+    public CategoryResponse(CategoryEntity entity) {
+        BeanUtils.copyProperties(entity, this);
 
+        if (!entity.getProduct().isEmpty()){
+            this.product = entity.getProduct().stream()
+                    .map(ProductResponse::new)
+                    .collect(Collectors.toList());
+        }
     }
 }

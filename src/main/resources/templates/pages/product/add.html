@@ -5,7 +5,6 @@
     <form th:action="@{~/product/save}" method="post" class="form-horizontal">
         <div class="card-body">
             <div class="row">
-
                 <div class="col-md-6 col-lg-6">
                     <div class="col-md-12">
                         <div class="card card-blue">
@@ -62,39 +61,45 @@
                             <div class="card-header">
                                 <h3 class="card-title">Category :</h3>
                             </div>
+                            <div class="card-tools">
+                                <a th:href="@{~/product/add-category}"></a>
+                            </div>
                             <div class="card-body">
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">Category Name</label>
-                                    <select class="col-sm-8 custom-select rounded-0" name="categoryId">
-                                        <option value="">Select one</option>
-                                        <option th:each="catgory :${category}"
-                                                th:value="${catgory.id}"
-                                                th:text="${catgory.name}">
-                                        </option>
-                                    </select>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" th:name="|category[0].name|" placeholder="Category Name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">Category Description</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" th:name="|category[0].desc|" placeholder="Category Description">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="onOrder" class="col-sm-4 col-form-label">On Order</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="onOrder" id="onOrder" placeholder="Product On Order">
+                        <div class="form-group row">
+                            <label for="onOrder" class="col-sm-4 col-form-label">On Order</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="onOrder" id="onOrder" placeholder="Product On Order">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="reorderLevel" class="col-sm-4 col-form-label">Reorder Level</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="reorderLevel" id="reorderLevel" placeholder="Product Reorder Level">
+                        <div class="form-group row">
+                            <label for="reorderLevel" class="col-sm-4 col-form-label">Reorder Level</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="reorderLevel" id="reorderLevel" placeholder="Product Reorder Level">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label for="discontinued" class="col-sm-4 col-form-label">Dscntinued</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="discontinued" id="discontinued" placeholder="Product Discontinued">
+                        <div class="form-group row">
+                            <label for="discontinued" class="col-sm-4 col-form-label">Dscntinued</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="discontinued" id="discontinued" placeholder="Product Discontinued">
+                            </div>
                         </div>
                     </div>
                 </div>

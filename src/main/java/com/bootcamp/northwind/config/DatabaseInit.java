@@ -22,7 +22,7 @@ public class DatabaseInit implements CommandLineRunner {
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder encoder;
-    private final LookUpService lookUpService;
+   private final LookUpService lookUpService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -35,19 +35,22 @@ public class DatabaseInit implements CommandLineRunner {
         initLookUp();
 
 
+
     }
 
     private void initLookUp() {
-        if (lookUpService.getByGroups("CATEGORY").isEmpty()){
-            lookUpService.saveAll(Arrays.asList(
-                    new LookUpEntity("CATEGORY", "MAKANAN", "Makanan", 1),
-                    new LookUpEntity("CATEGORY", "MINUMAN", "Minuman", 2),
-                    new LookUpEntity("CATEGORY", "SNACK", "Snack", 3)
-            ));
-        }
+       if (lookUpService.getByGroups("CATEGORY").isEmpty()){
+           lookUpService.saveAll(Arrays.asList(
+                   new LookUpEntity("CATEGORY", "MAKANAN", "Makanan", 1),
+                   new LookUpEntity("CATEGORY", "MINUMAN", "Minuman", 2),
+                   new LookUpEntity("CATEGORY", "SNACK", "Snack", 3),
+                   new LookUpEntity("CATEGORY", "ELEKTRONIK", "Elektronik", 4),
+                   new LookUpEntity("CATEGORY", "AKSESORIS", "Aksesoris", 5)
+           ));
+       }
     }
 
-    private void initRole() {
+       private void initRole() {
         if (roleRepo.count() > 0) {
             return;
         }
@@ -105,5 +108,4 @@ public class DatabaseInit implements CommandLineRunner {
             }
         }
     }
-
 }

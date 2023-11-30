@@ -1,8 +1,11 @@
 package com.bootcamp.northwind.service.impl;
 
 import com.bootcamp.northwind.model.entity.CategoryEntity;
+import com.bootcamp.northwind.model.entity.ProductEntity;
 import com.bootcamp.northwind.model.response.CategoryResponse;
+import com.bootcamp.northwind.model.response.ProductResponse;
 import com.bootcamp.northwind.repository.CategoryRepo;
+import com.bootcamp.northwind.repository.ProductRepo;
 import com.bootcamp.northwind.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CategoryImpl implements CategoryService {
     private final CategoryRepo categoryRepo;
+    private final ProductRepo productRepo;
     @Override
     public List<CategoryResponse> getAll() {
         return categoryRepo.findAll().stream()
@@ -26,22 +30,29 @@ public class CategoryImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse getById(String id) {
-        if (id == null){
-            return null;
-        }
-        return categoryRepo.findById(id)
-                .map(CategoryResponse::new)
-                .orElse(null);
+    public Optional<CategoryResponse> getById(Long id){
+       CategoryEntity entity = categoryRepo.findById(id).orElse(null);
+       if (entity == null){
+           return Optional.empty();
+       }
+
+       CategoryResponse response =new CategoryResponse(entity);
+       return Optional.of(response);
     }
 
     @Override
     public Optional<CategoryResponse> save(CategoryResponse response) {
-        if (response == null){
-            return Optional.empty();
-        }
+        CategoryEntity entity = new CategoryEntity();
+        BeanUtils.copyProperties(response, entity);
 
-        CategoryEntity entity = new CategoryEntity(response);
+        if (!response.getProduct().isEmpty()){
+            for (ProductResponse productResponse: response.getProduct()){
+                ProductEntity product = new ProductEntity();
+
+                BeanUtils.copyProperties(productResponse, product);
+                entity.addProduct(product);
+            }
+        }
         try {
             categoryRepo.save(entity);
             log.info("Save category success");
@@ -53,7 +64,31 @@ public class CategoryImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoryResponse> update(CategoryResponse response, String id) {
+    public Optional<ProductResponse> saveProduct(ProductResponse response) {
+        if (response.getCategoryId() == 0L){
+            return Optional.empty();
+        }
+
+        CategoryEntity entity = categoryRepo.findById(response.getCategoryId()).orElse(null);
+        if (entity == null){
+            return Optional.empty();
+        }
+
+        ProductEntity product =new ProductEntity();
+        BeanUtils.copyProperties(response, product);
+        product.setCategory(entity);
+        try {
+            productRepo.save(product);
+            log.info("Save product success");
+            return Optional.of(new ProductResponse());
+        }catch (Exception e){
+            log.error("Save product failed, error : {}",e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<CategoryResponse> update(CategoryResponse response, Long id) {
         CategoryEntity entity = categoryRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();
@@ -71,7 +106,7 @@ public class CategoryImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoryResponse> delete(String id) {
+    public Optional<CategoryResponse> delete(Long id) {
         CategoryEntity entity = categoryRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();

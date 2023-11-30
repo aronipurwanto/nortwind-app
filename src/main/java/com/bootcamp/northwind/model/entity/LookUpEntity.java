@@ -1,9 +1,6 @@
 package com.bootcamp.northwind.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,8 +14,9 @@ import java.util.UUID;
 @Table(name = "lookup_tab")
 public class LookUpEntity {
     @Id
-    @Column(name = "id", length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "lookup_group", length = 64, nullable = false)
     private String groups;
@@ -36,7 +34,6 @@ public class LookUpEntity {
     private Boolean active;
 
     public LookUpEntity(String groups, String code, String name, Integer position) {
-        this.id = UUID.randomUUID().toString();
         this.groups = groups;
         this.code = code;
         this.name = name;

@@ -1,14 +1,16 @@
 package com.bootcamp.northwind.model.response;
 
+import com.bootcamp.northwind.model.entity.CustomerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerResponse {
-    private String id;
+    private Long id;
     private String companyName;
     private String contactName;
     private String contactTitle;
@@ -21,4 +23,8 @@ public class CustomerResponse {
     private String fax;
     private String homepage;
 
+    public CustomerResponse(CustomerEntity entity) {
+        BeanUtils.copyProperties(entity, this);
+        this.id = entity.getId();
+    }
 }

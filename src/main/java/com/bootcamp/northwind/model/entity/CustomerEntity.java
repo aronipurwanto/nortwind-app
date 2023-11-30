@@ -1,12 +1,11 @@
 package com.bootcamp.northwind.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.bootcamp.northwind.model.response.CustomerResponse;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 @Data
 @NoArgsConstructor
@@ -15,8 +14,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "tbl_customer")
 public class CustomerEntity {
     @Id
-    @Column(name = "id", length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "company_name")
     private String companyName;
@@ -47,4 +47,8 @@ public class CustomerEntity {
 
     @Column(name = "fax")
     private String fax;
+
+    public CustomerEntity(CustomerResponse response) {
+        BeanUtils.copyProperties(response, this);
+    }
 }

@@ -2,6 +2,7 @@ package com.bootcamp.northwind.service.impl;
 
 import com.bootcamp.northwind.model.entity.CategoryEntity;
 import com.bootcamp.northwind.model.entity.ProductEntity;
+import com.bootcamp.northwind.model.response.CategoryResponse;
 import com.bootcamp.northwind.model.response.ProductResponse;
 import com.bootcamp.northwind.repository.CategoryRepo;
 import com.bootcamp.northwind.repository.ProductRepo;
@@ -29,13 +30,13 @@ public class ProductImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse getById(String id) {
-        if (id == null){
-            return null;
+    public Optional<ProductResponse> getById(Long id) {
+        ProductEntity entity = productRepo.findById(id).orElse(null);
+        if (entity == null){
+            return Optional.empty();
         }
-        return productRepo.findById(id)
-                .map(ProductResponse::new)
-                .orElse(null);
+
+        return Optional.of(new ProductResponse(entity));
     }
 
     @Override
@@ -44,12 +45,7 @@ public class ProductImpl implements ProductService {
             return Optional.empty();
         }
 
-        CategoryEntity category = categoryRepo.findById(response.getCategoryId()).orElse(null);
-        if (category == null){
-            return Optional.empty();
-        }
-
-        ProductEntity entity = new ProductEntity(response, category);
+        ProductEntity entity = new ProductEntity();
         try {
             productRepo.save(entity);
             log.info("Save Product success");
@@ -61,12 +57,14 @@ public class ProductImpl implements ProductService {
     }
 
     @Override
-    public Optional<ProductResponse> update(ProductResponse response, String id) {
+    public Optional<ProductResponse> update(ProductResponse response, Long id) {
         ProductEntity entity = productRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();
         }
+
         BeanUtils.copyProperties(response, entity);
+        entity.setId(id);
         try {
             productRepo.save(entity);
             log.info("Update product success");
@@ -78,7 +76,7 @@ public class ProductImpl implements ProductService {
     }
 
     @Override
-    public Optional<ProductResponse> delete(String id) {
+    public Optional<ProductResponse> delete(Long id) {
         ProductEntity entity = productRepo.findById(id).orElse(null);
         if (entity == null){
             log.warn("Delete product with id not found : {}", id);

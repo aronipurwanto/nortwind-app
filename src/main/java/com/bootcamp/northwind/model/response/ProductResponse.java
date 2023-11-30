@@ -6,11 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductResponse {
-    private String id;
+    private Long id;
+    private Long categoryId;
     private String name;
     private Double quantityPerUnit;
     private Double unitPrice;
@@ -18,24 +23,15 @@ public class ProductResponse {
     private String onOrder;
     private Double reorderLevel;
     private String discontinued;
-    private String categoryId;
-    private CategoryResponse category;
-    private String supplierId;
-    private SupplierResponse supplier;
+    private Long supplierId;
+    private String companyName;
 
     public ProductResponse(ProductEntity entity) {
         BeanUtils.copyProperties(entity, this);
 
-        if (entity.getCategory() != null){
-            this.id = entity.getCategoryId();
-            this.category = new CategoryResponse(entity.getCategory());
-        }
-
         if (entity.getSupplier() != null){
-            this.id = entity.getSupplierId();
-            this.supplier = new SupplierResponse(entity.getSupplier());
+            this.supplierId = entity.getSupplierId();
+            this.companyName = entity.getSupplier().getCompanyName();
         }
-
-
     }
 }

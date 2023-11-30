@@ -35,8 +35,8 @@ public class LookUpImpl implements LookUpService {
     }
 
     @Override
-    public Optional<LookUpEntity> getById(String id) {
-        if (id == null || id.isEmpty())
+    public Optional<LookUpEntity> getById(Long id) {
+        if (id == null)
             return Optional.empty();
 
         return this.repo.findById(id);

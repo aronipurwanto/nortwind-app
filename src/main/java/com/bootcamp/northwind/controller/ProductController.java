@@ -1,6 +1,5 @@
 package com.bootcamp.northwind.controller;
 
-import com.bootcamp.northwind.model.entity.CategoryEntity;
 import com.bootcamp.northwind.model.response.CategoryResponse;
 import com.bootcamp.northwind.model.response.ProductResponse;
 import com.bootcamp.northwind.model.response.SupplierResponse;
@@ -18,7 +17,7 @@ import java.util.List;
 @RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
-    private final CategoryService categoryService;
+   // private final CategoryService categoryService;
     private final SupplierService supplierService;
 
     @GetMapping
@@ -30,15 +29,13 @@ public class ProductController {
         return view;
     }
 
-    @GetMapping("/add-modal")
+    @GetMapping("/add")
     public ModelAndView addModel(){
         ModelAndView view = new ModelAndView("pages/product/add");
 
-        List<CategoryResponse> category = categoryService.getAll();
         List<SupplierResponse> supplier = supplierService.getAll();
 
         view.addObject("supplier", supplier);
-        view.addObject("category", category);
         return view;
     }
 
@@ -49,22 +46,17 @@ public class ProductController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView edit(@PathVariable("id") String id){
+    public ModelAndView edit(@PathVariable("id") Long id){
         ModelAndView view = new ModelAndView("pages/product/edit");
-        ProductResponse response = productService.getById(id);
+        ProductResponse response = productService.getById(id).orElse(null);
         if (response == null){
             return new ModelAndView("redirect:/product");
         }
 
-        List<CategoryResponse> category = categoryService.getAll();
-
         List<SupplierResponse> supplier = supplierService.getAll();
 
-        view.addObject("editSupplier", supplier);
-
-        view.addObject("editCategory", category);
-
-        view.addObject("editProduct", response);
+        view.addObject("supplier", supplier);
+        view.addObject("product", response);
         return view;
     }
 
@@ -75,25 +67,17 @@ public class ProductController {
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable("id") String id){
+    public ModelAndView delete(@PathVariable("id") Long id){
         ModelAndView view = new ModelAndView("pages/product/delete");
-        ProductResponse response = productService.getById(id);
-        if (response == null){
+        ProductResponse product = productService.getById(id).orElse(null);
+        if (product == null){
             return new ModelAndView("redirect:/product");
         }
 
-        view.addObject("product", response);
-        return view;
-    }
+        List<SupplierResponse> supplier = supplierService.getAll();
 
-    @GetMapping("/detail/{id}")
-    public ModelAndView detail(@PathVariable("id") String id) {
-        ModelAndView view = new ModelAndView("pages/product/detail");
-        ProductResponse response = productService.getById(id);
-        if (response == null) {
-            return new ModelAndView("redirect:/product");
-        }
-        view.addObject("detailProduct", response);
+        view.addObject("supplier", supplier);
+        view.addObject("data", product);
         return view;
     }
 
@@ -101,6 +85,17 @@ public class ProductController {
     public String delete(@ModelAttribute ProductResponse response){
         productService.delete(response.getId());
         return "redirect:/product";
+    }
+
+    @GetMapping("/detail/{id}")
+    public ModelAndView detail(@PathVariable("id") Long id) {
+        ModelAndView view = new ModelAndView("pages/product/detail");
+        ProductResponse response = productService.getById(id).orElse(null);
+        if (response == null) {
+            return new ModelAndView("redirect:/product");
+        }
+        view.addObject("detailProduct", response);
+        return view;
     }
 }
 

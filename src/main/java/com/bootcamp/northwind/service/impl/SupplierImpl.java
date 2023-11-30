@@ -26,13 +26,12 @@ public class SupplierImpl implements SupplierService {
     }
 
     @Override
-    public SupplierResponse getById(String id) {
-        if (id == null){
-            return null;
+    public Optional<SupplierResponse> getById(Long id) {
+        SupplierEntity result = supplierRepo.findById(id).orElse(null);
+        if (result == null){
+            return Optional.empty();
         }
-        return supplierRepo.findById(id)
-                .map(SupplierResponse::new)
-                .orElse(null);
+        return Optional.of(new SupplierResponse(result));
     }
 
     @Override
@@ -53,7 +52,7 @@ public class SupplierImpl implements SupplierService {
     }
 
     @Override
-    public Optional<SupplierResponse> update(SupplierResponse response, String id) {
+    public Optional<SupplierResponse> update(SupplierResponse response, Long id) {
         SupplierEntity entity = supplierRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();
@@ -70,7 +69,7 @@ public class SupplierImpl implements SupplierService {
     }
 
     @Override
-    public Optional<SupplierResponse> delete(String id) {
+    public Optional<SupplierResponse> delete(Long id) {
         SupplierEntity entity = supplierRepo.findById(id).orElse(null);
         if (entity == null){
             log.warn("Delete supplier with id not found : {}", id);
