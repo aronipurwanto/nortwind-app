@@ -3,7 +3,6 @@ package com.bootcamp.northwind.controller;
 import com.bootcamp.northwind.model.request.CategoryRequest;
 import com.bootcamp.northwind.model.request.SupplierRequest;
 import com.bootcamp.northwind.service.CategoryService;
-import com.bootcamp.northwind.service.ProductsService;
 import com.bootcamp.northwind.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
