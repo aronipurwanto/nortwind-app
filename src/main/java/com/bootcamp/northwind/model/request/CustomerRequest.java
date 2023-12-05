@@ -1,8 +1,10 @@
 package com.bootcamp.northwind.model.request;
 
+import com.bootcamp.northwind.model.entity.CustomerEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 @Data
 @AllArgsConstructor
@@ -19,4 +21,8 @@ public class CustomerRequest {
     private String country;
     private String phone;
     private String fax;
+
+    public CustomerRequest(CustomerEntity entity) {
+        BeanUtils.copyProperties(entity, this);
+    }
 }

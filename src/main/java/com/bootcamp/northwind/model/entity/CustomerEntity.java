@@ -1,9 +1,11 @@
 package com.bootcamp.northwind.model.entity;
 
+import com.bootcamp.northwind.model.request.CustomerRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 @Data
 @AllArgsConstructor
@@ -46,4 +48,8 @@ public class CustomerEntity {
 
     @Column(name = "fax")
     private String fax;
+
+    public CustomerEntity(CustomerRequest request) {
+        BeanUtils.copyProperties(request, this);
+    }
 }

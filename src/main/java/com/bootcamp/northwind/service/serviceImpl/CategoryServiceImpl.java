@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<CategoryRequest> getById(Long id) {
         CategoryEntity entity = this.categoryRepo.findById(id).orElse(null);
-        if (id == null){
+        if (entity == null){
             return Optional.empty();
         }
 
