@@ -10,7 +10,6 @@ public interface CategoryService {
     List<CategoryResponse> getAll();
     Optional<CategoryResponse> getById(Long id);
     Optional<CategoryResponse> save(CategoryResponse response);
-    Optional<ProductResponse> saveProduct(ProductResponse response);
     Optional<CategoryResponse> update(CategoryResponse response, Long id);
     Optional<CategoryResponse> delete(Long id);
 }

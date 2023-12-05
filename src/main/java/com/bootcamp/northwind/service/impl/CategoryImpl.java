@@ -64,30 +64,6 @@ public class CategoryImpl implements CategoryService {
     }
 
     @Override
-    public Optional<ProductResponse> saveProduct(ProductResponse response) {
-        if (response.getCategoryId() == 0L){
-            return Optional.empty();
-        }
-
-        CategoryEntity entity = categoryRepo.findById(response.getCategoryId()).orElse(null);
-        if (entity == null){
-            return Optional.empty();
-        }
-
-        ProductEntity product =new ProductEntity();
-        BeanUtils.copyProperties(response, product);
-        product.setCategory(entity);
-        try {
-            productRepo.save(product);
-            log.info("Save product success");
-            return Optional.of(new ProductResponse());
-        }catch (Exception e){
-            log.error("Save product failed, error : {}",e.getMessage());
-            return Optional.empty();
-        }
-    }
-
-    @Override
     public Optional<CategoryResponse> update(CategoryResponse response, Long id) {
         CategoryEntity entity = categoryRepo.findById(id).orElse(null);
         if (entity == null){

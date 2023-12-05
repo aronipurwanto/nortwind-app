@@ -15,7 +15,7 @@ import org.springframework.beans.BeanUtils;
 public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "customer_id")
     private Long id;
 
     @Column(name = "company_name")

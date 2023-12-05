@@ -21,7 +21,6 @@ public class CustomerResponse {
     private String country;
     private String phone;
     private String fax;
-    private String homepage;
 
     public CustomerResponse(CustomerEntity entity) {
         BeanUtils.copyProperties(entity, this);

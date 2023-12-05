@@ -1,12 +1,11 @@
 package com.bootcamp.northwind.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.bootcamp.northwind.model.response.EmployeesResponse;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDate;
 
@@ -17,8 +16,9 @@ import java.time.LocalDate;
 @Table(name = "tbl_employees")
 public class EmployeesEntity {
     @Id
-    @Column(name = "id", length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employees_id")
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -59,9 +59,6 @@ public class EmployeesEntity {
     @Column(name = "extension")
     private String extension;
 
-    @Column(name = "photo")
-    private String photo;
-
     @Column(name = "notes")
     private String notes;
 
@@ -70,4 +67,8 @@ public class EmployeesEntity {
 
     @Column(name = "phone_path")
     private String photoPath;
+
+    public EmployeesEntity(EmployeesResponse response) {
+        BeanUtils.copyProperties(response, this);
+    }
 }

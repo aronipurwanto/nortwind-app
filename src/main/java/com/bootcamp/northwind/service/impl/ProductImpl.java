@@ -1,10 +1,7 @@
 package com.bootcamp.northwind.service.impl;
 
-import com.bootcamp.northwind.model.entity.CategoryEntity;
 import com.bootcamp.northwind.model.entity.ProductEntity;
-import com.bootcamp.northwind.model.response.CategoryResponse;
 import com.bootcamp.northwind.model.response.ProductResponse;
-import com.bootcamp.northwind.repository.CategoryRepo;
 import com.bootcamp.northwind.repository.ProductRepo;
 import com.bootcamp.northwind.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +17,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductImpl implements ProductService {
     private final ProductRepo productRepo;
-    private final CategoryRepo categoryRepo;
 
     @Override
     public List<ProductResponse> getAll() {

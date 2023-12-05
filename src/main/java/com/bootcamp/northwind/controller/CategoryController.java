@@ -81,6 +81,9 @@ public class CategoryController {
             return new ModelAndView("redirect:/category");
         }
 
+        List<SupplierResponse> supplier = supplierService.getAll();
+        view.addObject("supplier", supplier);
+
         view.addObject("data",data);
         return view;
     }
@@ -95,6 +98,9 @@ public class CategoryController {
             return new ModelAndView("redirect:/category");
         }
 
+        List<SupplierResponse> supplier = supplierService.getAll();
+        view.addObject("suplier", supplier);
+
         view.addObject("category", response);
         return view;
     }
@@ -103,26 +109,5 @@ public class CategoryController {
     public String delete(@ModelAttribute CategoryResponse response){
         categoryService.delete(response.getId());
         return "redirect:/category";
-    }
-
-    /**
-     * address custom
-     */
-    @GetMapping("/product/new/{id}")
-    public ModelAndView addressNew(@PathVariable("id") Long id){
-        ModelAndView view = new ModelAndView("pages/category/_product-new");
-        List<SupplierResponse> supplier = supplierService.getAll();
-        // send country to view
-        view.addObject("supplier", supplier);
-        view.addObject("categoryId", id);
-        return view;
-    }
-
-    @PostMapping("/product/save")
-    public ModelAndView saveCustomerAddress(@ModelAttribute ProductResponse response){
-        // call save from service
-        categoryService.saveProduct(response);
-        // redirect to index
-        return new ModelAndView("redirect:/category/edit" + response.getCategoryId());
     }
 }

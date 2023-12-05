@@ -20,8 +20,8 @@ import java.util.UUID;
 @Table(name = "tbl_order")
 public class OrderEntity {
     @Id
-    @Column(name = "id", length = 36)
-    private String id;
+    @Column(name = "order_id")
+    private Long id;
 
     @Column(name = "order_date")
     private LocalDate orderDate;
@@ -58,6 +58,5 @@ public class OrderEntity {
 
     public OrderEntity(OrderResponse response) {
         BeanUtils.copyProperties(response, this);
-        this.id = UUID.randomUUID().toString();
     }
 }
