@@ -32,6 +32,11 @@ public class CustomerController {
         return new ModelAndView("pages/customer/add");
     }
 
+    @GetMapping("/add-modal")
+    public ModelAndView addModal(){
+        return new ModelAndView("pages/customer/_addPartial");
+    }
+
     @PostMapping("/save")
     public ModelAndView save(@ModelAttribute CustomerRequest request){
         this.customerService.save(request);

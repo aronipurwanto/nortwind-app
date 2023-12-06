@@ -37,7 +37,7 @@
                                     <i class="fas fa-search"></i>
                                 </button>
 
-                                <a th:href="@{~/category/add-modal}" class="btn btn-info" id="btn-add">
+                                <a th:href="@{~/customer/add-modal}" class="btn btn-info" id="btn-add">
                                     <i class="fas fa-plus"></i>
                                 </a>
                             </div>
@@ -100,6 +100,13 @@
            // mencegah link bekerja
            e.preventDefault();
             // call method getModal
+            getModal($(this));
+        });
+
+        $("#btn-edit").click(function (e){
+           // mencegah link bekerja
+           e.preventDefault();
+           // cal method getModal
             getModal($(this));
         });
 
