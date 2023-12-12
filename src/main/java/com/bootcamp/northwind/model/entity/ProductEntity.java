@@ -7,10 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,25 +14,19 @@ import java.util.UUID;
 @Table(name = "tbl_product")
 public class ProductEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private String id;
+    private Long id;
 
     @Column(name = "product_name")
     private String productName;
 
     @Column(name = "supplier_id")
-    private String supplierId;
+    private Long supplierId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "supplier_id", insertable = false, updatable = false)
     private SupplierEntity supplier;
-
-    @Column(name = "category_id")
-    private String categoryId;
-
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "category_id")
-//    private CategoriesEntity categories;
 
     @Column(name = "qty_unit")
     private Integer qtyUnit;
@@ -56,9 +46,14 @@ public class ProductEntity {
     @Column(name = "discontinued")
     private Integer discontinued;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private CategoriesEntity categories;
+
     public ProductEntity(ProductRequest request) {
         BeanUtils.copyProperties(request, this);
-        this.id = UUID.randomUUID().toString();
     }
 
+    public void setCategories(CategoriesEntity categoriesEntity) {
+    }
 }

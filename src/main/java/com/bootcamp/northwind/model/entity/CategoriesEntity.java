@@ -9,7 +9,6 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -18,8 +17,9 @@ import java.util.UUID;
 @Table(name = "tbl_categories")
 public class CategoriesEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private String id;
+    private Long id;
 
     @Column(name = "category_name")
     private String categoryName;
@@ -27,17 +27,20 @@ public class CategoriesEntity {
     @Column(name = "category_desc")
     private String description;
 
-//    @OneToMany(mappedBy = "categories", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private List<ProductEntity> product = new ArrayList<>();
+    @OneToMany(mappedBy = "categories", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ProductEntity> product = new ArrayList<>();
 
+    public CategoriesEntity(String categoryName, String description) {
+        this.categoryName = categoryName;
+        this.description = description;
+    }
 
     public CategoriesEntity(CategoriesRequest request) {
         BeanUtils.copyProperties(request, this);
-        this.id = UUID.randomUUID().toString();
     }
 
-//    public void addCategories(ProductEntity productEntity){
-//        this.product.add(productEntity);
-//        productEntity.setCategories(this);
-//    }
+    public void getProduct(ProductEntity productEntity){
+        this.product.add(productEntity);
+        productEntity.setCategories(this);
+    }
 }

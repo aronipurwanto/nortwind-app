@@ -15,18 +15,17 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoriesRequest {
-    private String id;
+    private Long id;
     private String categoryName;
     private String description;
-//    private List<ProductRequest> product = new ArrayList<>();
+    private List<ProductRequest> product = new ArrayList<>();
 
     public CategoriesRequest(CategoriesEntity entity) {
         BeanUtils.copyProperties(entity, this);
 
-//        if (!entity.getProduct().isEmpty()){
-//            this.product = entity.getProduct().stream()
-//                    .map(ProductRequest::new)
-//                    .collect(Collectors.toList());
-//        }
+        if (!entity.getProduct().isEmpty()){
+            this.product = entity.getProduct()
+                    .stream().map(ProductRequest::new).collect(Collectors.toList());
+        }
     }
 }

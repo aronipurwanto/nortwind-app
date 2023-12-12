@@ -1,7 +1,9 @@
 package com.bootcamp.northwind.sImpl;
 
 import com.bootcamp.northwind.model.entity.CategoriesEntity;
+import com.bootcamp.northwind.model.entity.ProductEntity;
 import com.bootcamp.northwind.model.request.CategoriesRequest;
+import com.bootcamp.northwind.model.request.ProductRequest;
 import com.bootcamp.northwind.repository.CategoryRepo;
 import com.bootcamp.northwind.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,17 +24,24 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoriesRequest> getAll() {
-        return this.categoryRepo.findAll()
-                .stream()
+        List<CategoriesEntity> categories = this.categoryRepo.findAll();
+        if (categories.isEmpty()){
+            return Collections.emptyList();
+        }
+
+        return categories.stream()
                 .map(CategoriesRequest::new)
                 .collect(Collectors.toList());
     }
 
+
     @Override
-    public CategoriesRequest getById(String id) {
-        return this.categoryRepo.findById(id)
-                .map(CategoriesRequest::new)
-                .orElse(null);
+    public Optional<CategoriesRequest> getById(Long id) {
+        CategoriesEntity entity = this.categoryRepo.findById(id).orElse(null);
+        if (entity == null){
+            return Optional.empty();
+        }
+        return Optional.of(new CategoriesRequest(entity));
     }
 
     @Override
@@ -40,11 +50,22 @@ public class CategoryServiceImpl implements CategoryService {
             return Optional.empty();
         }
 
-        CategoriesEntity entity = new CategoriesEntity(request);
+        CategoriesEntity categories = new CategoriesEntity(request);
+        BeanUtils.copyProperties(request, categories);
+
+        if (!request.getProduct().isEmpty()){
+            for (ProductRequest productRequest :request.getProduct()){
+                ProductEntity productEntity = new ProductEntity();
+                BeanUtils.copyProperties(productRequest, productEntity);
+                // add data product
+                categories.getProduct(productEntity);
+            }
+        }
+
         try {
-            this.categoryRepo.save(entity);
+            this.categoryRepo.save(categories);
             log.info("Save category to database success");
-            return Optional.of(new CategoriesRequest(entity));
+            return Optional.of(new CategoriesRequest(categories));
         }catch (Exception e){
             log.error("Save category to database failed, error: {}", e.getMessage());
             return Optional.empty();
@@ -52,13 +73,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoriesRequest> update(CategoriesRequest request, String id) {
+    public Optional<CategoriesRequest> update(CategoriesRequest request, Long id) {
         CategoriesEntity entity = this.categoryRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();
         }
 
         BeanUtils.copyProperties(request, entity);
+        entity.setId(id);
         try {
             this.categoryRepo.save(entity);
             log.info("Update category to database success");
@@ -70,7 +92,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoriesRequest> delete(String id) {
+    public Optional<CategoriesRequest> delete(Long id) {
         CategoriesEntity result = this.categoryRepo.findById(id).orElse(null);
         if (result == null){
             log.warn("Category with id: {} not found", id);

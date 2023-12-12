@@ -10,7 +10,7 @@ import org.springframework.beans.BeanUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SupplierModel {
-    private String id;
+    private Long id;
     private String companyName;
     private String contactName;
     private String contactTitle;
@@ -25,5 +25,6 @@ public class SupplierModel {
 
     public SupplierModel(SupplierEntity entity) {
         BeanUtils.copyProperties(entity, this);
+        this.id = entity.getId();
     }
 }

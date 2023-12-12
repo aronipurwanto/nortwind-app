@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface CategoryService {
     List<CategoriesRequest> getAll();
-    CategoriesRequest getById(String id);
+    Optional<CategoriesRequest> getById(Long id);
     Optional<CategoriesRequest> save(CategoriesRequest request);
-    Optional<CategoriesRequest> update(CategoriesRequest request, String id);
-    Optional<CategoriesRequest> delete(String id);
+    Optional<CategoriesRequest> update(CategoriesRequest request, Long id);
+    Optional<CategoriesRequest> delete(Long id);
 }
