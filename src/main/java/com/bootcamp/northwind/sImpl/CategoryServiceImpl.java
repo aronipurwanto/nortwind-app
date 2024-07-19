@@ -1,8 +1,8 @@
 package com.bootcamp.northwind.sImpl;
 
-import com.bootcamp.northwind.model.entity.CategoriesEntity;
+import com.bootcamp.northwind.model.entity.CategoryEntity;
 import com.bootcamp.northwind.model.entity.ProductEntity;
-import com.bootcamp.northwind.model.request.CategoriesRequest;
+import com.bootcamp.northwind.model.request.CategoryRequest;
 import com.bootcamp.northwind.model.request.ProductRequest;
 import com.bootcamp.northwind.repository.CategoryRepo;
 import com.bootcamp.northwind.service.CategoryService;
@@ -23,34 +23,33 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepo categoryRepo;
 
     @Override
-    public List<CategoriesRequest> getAll() {
-        List<CategoriesEntity> categories = this.categoryRepo.findAll();
+    public List<CategoryRequest> getAll() {
+        List<CategoryEntity> categories = this.categoryRepo.findAll();
         if (categories.isEmpty()){
             return Collections.emptyList();
         }
 
         return categories.stream()
-                .map(CategoriesRequest::new)
+                .map(CategoryRequest::new)
                 .collect(Collectors.toList());
     }
 
-
     @Override
-    public Optional<CategoriesRequest> getById(Long id) {
-        CategoriesEntity entity = this.categoryRepo.findById(id).orElse(null);
+    public Optional<CategoryRequest> getById(Long id) {
+        CategoryEntity entity = this.categoryRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();
         }
-        return Optional.of(new CategoriesRequest(entity));
+        return Optional.of(new CategoryRequest(entity));
     }
 
     @Override
-    public Optional<CategoriesRequest> save(CategoriesRequest request) {
+    public Optional<CategoryRequest> save(CategoryRequest request) {
         if (request == null){
             return Optional.empty();
         }
 
-        CategoriesEntity categories = new CategoriesEntity(request);
+        CategoryEntity categories = new CategoryEntity(request);
         BeanUtils.copyProperties(request, categories);
 
         if (!request.getProduct().isEmpty()){
@@ -65,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             this.categoryRepo.save(categories);
             log.info("Save category to database success");
-            return Optional.of(new CategoriesRequest(categories));
+            return Optional.of(new CategoryRequest(categories));
         }catch (Exception e){
             log.error("Save category to database failed, error: {}", e.getMessage());
             return Optional.empty();
@@ -73,8 +72,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoriesRequest> update(CategoriesRequest request, Long id) {
-        CategoriesEntity entity = this.categoryRepo.findById(id).orElse(null);
+    public Optional<CategoryRequest> update(CategoryRequest request, Long id) {
+        CategoryEntity entity = this.categoryRepo.findById(id).orElse(null);
         if (entity == null){
             return Optional.empty();
         }
@@ -84,7 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             this.categoryRepo.save(entity);
             log.info("Update category to database success");
-            return Optional.of(new CategoriesRequest(entity));
+            return Optional.of(new CategoryRequest(entity));
         }catch (Exception e){
             log.error("Update category to database failed, error: {} ", e.getMessage());
             return Optional.empty();
@@ -92,8 +91,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<CategoriesRequest> delete(Long id) {
-        CategoriesEntity result = this.categoryRepo.findById(id).orElse(null);
+    public Optional<CategoryRequest> delete(Long id) {
+        CategoryEntity result = this.categoryRepo.findById(id).orElse(null);
         if (result == null){
             log.warn("Category with id: {} not found", id);
             return Optional.empty();
@@ -102,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             this.categoryRepo.delete(result);
             log.info("Delete Category from database success");
-            return Optional.of(new CategoriesRequest(result));
+            return Optional.of(new CategoryRequest(result));
         }catch (Exception e){
             log.error("Delete category from database failed, error: {}", e.getMessage());
             return Optional.empty();

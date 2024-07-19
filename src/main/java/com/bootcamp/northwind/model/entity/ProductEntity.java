@@ -48,12 +48,12 @@ public class ProductEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
-    private CategoriesEntity categories;
+    private CategoryEntity category;
 
     public ProductEntity(ProductRequest request) {
         BeanUtils.copyProperties(request, this);
     }
 
-    public void setCategories(CategoriesEntity categoriesEntity) {
+    public void setCategories(CategoryEntity categoryEntity) {
     }
 }
